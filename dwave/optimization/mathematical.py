@@ -2361,7 +2361,7 @@ def subtract(x1: ArraySymbolLike, x2: ArraySymbolLike) -> Subtract:
     raise RuntimeError("implemented by the _binaryop() decorator")
 
 
-def tanh(x) -> Tanh:
+def tanh(x: ArraySymbol) -> Tanh:
     """Calculate element-wise the trigonometric hyperbolic tangent of a symbol.
 
     Args:

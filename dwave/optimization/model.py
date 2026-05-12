@@ -41,6 +41,7 @@ if typing.TYPE_CHECKING:
     import numpy.typing
 
     from dwave.optimization.symbols import *
+    import collections.abc
 
     _ShapeLike: typing.TypeAlias = typing.Union[int, collections.abc.Sequence[int]]
 
@@ -888,7 +889,7 @@ class Model(_Graph):
 
         return ListVariable(self, n, min_size, max_size)
 
-    def lock(self) -> contextlib.AbstractContextManager:
+    def lock(self) -> contextlib.AbstractContextManager[None]:
         """Lock the model.
 
         No new symbols can be added to a locked model. Unlocked models do not
@@ -932,14 +933,14 @@ class Model(_Graph):
         super().lock()
         return locked(self)
 
-    def minimize(self, value: ArraySymbol):
+    def minimize(self, value: ArraySymbol) -> None:
         # inherit the docstring from _Graph
         super().minimize(value)
         self._objective = value
 
     # dev note: the typing is underspecified, but it would be quite complex to fully
     # specify the linear/quadratic so let's leave it alone for now.
-    def quadratic_model(self, x: ArraySymbol, quadratic, linear=None) -> QuadraticModel:
+    def quadratic_model(self, x: ArraySymbol, quadratic:dict[tuple[int,int],int], linear:dict[int,int]|None=None) -> QuadraticModel:
         """Add a quadratic model to the model.
 
         Creates a :term:`quadratic model` from a predecessor

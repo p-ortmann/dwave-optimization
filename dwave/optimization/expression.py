@@ -66,7 +66,7 @@ class Expression:
 
     .. versionadded:: 0.6.4
     """
-    _function: collections.abc.Callable  # todo: better typing?
+    _function: collections.abc.Callable[...,typing.Any]  # todo: better typing?
     _model: Model
 
     def __init__(self):
@@ -78,9 +78,9 @@ class Expression:
 
 
 @typing.overload
-def expression(function: collections.abc.Callable, **kwargs) -> Expression: ...
+def expression(function: collections.abc.Callable[..., typing.Any], **kwargs) -> Expression: ...
 @typing.overload
-def expression(**kwargs) -> collections.abc.Callable: ...
+def expression(**kwargs) -> collections.abc.Callable[..., typing.Any]: ...
 
 
 def expression(*args, **kwargs):
